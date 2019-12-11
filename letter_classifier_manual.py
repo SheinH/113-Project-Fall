@@ -5,7 +5,7 @@ import os
 from data_generator import HGenerator, LGenerator
 
 
-class LetterClassifier():
+class LetterClassifierManual():
     ''' Class is used to show and classify data '''
     cwd = os.getcwd()
     training_h_file_name = cwd + '/Data/H Training.txt'

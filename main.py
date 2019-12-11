@@ -1,7 +1,11 @@
-from letter_classifier import LetterClassifier
+from letter_classifier_manual import LetterClassifierManual
+from letter_classsifier_machine import LetterClassifierMachine
 
 def main():
-    classifier = LetterClassifier()
-    classifier.classifyLetters()
+    manual_classifier = LetterClassifierManual()
+    manual_classifier.classifyLetters()
+
+    machine_classifier = LetterClassifierMachine()
+    machine_classifier.train_h_set()
 
 main()
