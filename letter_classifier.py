@@ -61,11 +61,11 @@ class LetterClassifier():
         l_set -- list of csv strings in the format LETTER,L
         '''
         f = open(self.training_h_file_name, 'a+')
-        f.write('\n'.join(h_set))
+        f.write('\n'.join(h_set) + '\n')
         f.close()
 
         f = open(self.training_l_file_name, 'a+')
-        f.write('\n'.join(l_set))
+        f.write('\n'.join(l_set) + '\n')
         f.close()
 
     def classifyLetters(self):
