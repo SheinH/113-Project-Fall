@@ -102,7 +102,7 @@ class LetterClassifier():
                     iteration += 1
                 elif(v == 'L'):
                     l_set.append(c)
-                    h_done += 1
+                    l_done += 1
                     iteration += 1
 
             # Save after 20 new data points as do not want to lose data on crash or boredom
