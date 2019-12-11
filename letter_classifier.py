@@ -85,9 +85,9 @@ class LetterClassifier():
             print('{} out of {} Hs completed'.format(h_done, 300))
 
             if(l_done >= 300):
-                letter = l_gen.getNewLetterWithCorrupt()
-            elif(h_done >= 300):
                 letter = h_gen.getNewLetterWithCorrupt()
+            elif(h_done >= 300):
+                letter = l_gen.getNewLetterWithCorrupt()
             else:
                 if(random.randint(1, 2) == 1):
                     letter = l_gen.getNewLetterWithCorrupt()
