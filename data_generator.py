@@ -14,7 +14,7 @@ class HGenerator():
     def getNewLetterWithCorrupt(self):
         '''Generate a new letter with base H and less than 4 corrupted pixels '''
         base = list(self.__CAPITAL_BASES[random.randint(0, 2)])
-        for value in range(random.randint(0, 3)):
+        for value in range(random.randint(0, 2)):
             pos = random.randint(0, 11)
             base[pos] = self.__corrupt_pixel(base[pos])
 
@@ -36,13 +36,10 @@ class LGenerator():
     as letter L
     '''
     __CAPITAL_BASES = [
-        [1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1],
-        [1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 1],
+        [1, 0, 0, 1, 0, 0, 1, 0, 1, 1, 1, 1],
         [1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 1],
         [1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 0],
         [0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 1],
-        [0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 0],
-        [0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 0],
     ]
 
     def getNewLetterWithCorrupt(self):
