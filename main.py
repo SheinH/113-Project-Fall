@@ -6,10 +6,9 @@ import numpy as np
 from letter_classsifier_machine import LetterClassifierMachine
 
 
-
 def average_hit_missed(m, n, data, runs):
-    '''Calculates the percentages of correct identifications by checking the match arrays
-    and dividing them by the overall count '''
+    """Calculates the percentages of correct identifications by checking the match arrays
+    and dividing them by the overall count """
     hit_miss_percent = []
 
     for i in range(runs):
@@ -20,14 +19,10 @@ def average_hit_missed(m, n, data, runs):
 
 
 def train_and_run(m, n, data):
-    machine_classifier = LetterClassifierMachine(m, n, data)
-def train_and_run(m, n):
-    ''' calls functions from the letter classifier machine to create the training arrays and update with the
+    """ calls functions from the letter classifier machine to create the training arrays and update with the
         training data then test what was learned on a test data set.
-    '''
-    machine_classifier = LetterClassifierMachine(m, n)
-    machine_classifier.setup(m,n)
-
+    """
+    machine_classifier = LetterClassifierMachine(m, n, data)
     machine_classifier.train_l_set()
     machine_classifier.train_h_set()
 
@@ -39,27 +34,11 @@ def train_and_run(m, n):
             match += 1
         else:
             miss += 1
-
-    machine_classifier.reset()
-
     return match, miss
 
 
-def get_pos_int(prompt):
-    answer = ''
-    while answer == '':
-        try:
-            answer = int(input(prompt))
-            if answer > 12 or answer < 1:
-                print('Error, choice must be in range 1 - 12.')
-                answer = ''
-        except ValueError as e:
-            print('Error, choice must be in range 1 - 12.')
-    return answer
-
-
 def create_histogram(data, runs):
-    ''' Creates a histogram of the runs to show distribution of the hit% ratios '''
+    """ Creates a histogram of the runs to show distribution of the hit% ratios """
     fig = plt.figure(figsize=(10, 10))
 
     plt.hist(data, bins=100, histtype='step')
@@ -70,6 +49,9 @@ def create_histogram(data, runs):
 
 
 def get_input(string, validator):
+    """Gets user input and runs it through a validator lambda
+    If the input is invalid, the user will be prompted for further input.
+    """
     inp = input(string)
     valid = False
     while not valid:
@@ -85,12 +67,14 @@ def get_input(string, validator):
 
 
 def main_options():
+    """Main event loop for this program"""
     hist_bool = True
     data = preload_data()
     choice = ''
     n = 3
     m = 4
     runs = 1000
+
     def modify_n_m():
         n = int(get_input('n (1 - 12) = ', lambda x: int(x) in range(1, 13)))
         m = int(get_input('m = ', lambda x: int(x) > 0))
@@ -123,25 +107,26 @@ def main_options():
 
 
 def preload_data():
-    '''
+    """
     Returns 3 item tuple of numpy string arrays
     1st item - Data from H training
     2nd item - Data from L training
     3rd item - Test data
-    '''
-    def opencsv(filename):
+    """
+
+    def open_csv(filename):
         return np.genfromtxt(os.path.join('Data', filename), dtype='U1', delimiter=',')
 
-    h_training = opencsv('H Training.txt')
-    l_training = opencsv('L Training.txt')
-    test = opencsv('Test Data.txt')
+    h_training = open_csv('H Training.txt')
+    l_training = open_csv('L Training.txt')
+    test = open_csv('Test Data.txt')
     return h_training, l_training, test
 
 
 def edit_behavior(runs, hist_bool):
-    '''allows the user to change if the histagram is printed at the end of the run or to change the number of runs
-        the stating values is to print histagram and 1000 runs
-    '''
+    """allows the user to change if the histogram is printed at the end of the run or to change the number of runs
+        the stating values is to print histogram and 1000 runs
+    """
     choice = ''
     while choice.lower() != 'q':
         print('\nEnter the number corresponding to the choice below to select or q to exit')
@@ -160,6 +145,7 @@ def edit_behavior(runs, hist_bool):
 
 
 def get_runs_prompt(runs):
+    """Function for modifying # of runs"""
     val = ''
     while val == '':
         print('\nEnter the number of runs that you would like to run before the mean value is shown.')

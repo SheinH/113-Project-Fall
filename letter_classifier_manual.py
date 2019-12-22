@@ -4,31 +4,31 @@ from data_generator import HGenerator, LGenerator
 
 
 class LetterClassifierManual:
-    ''' Class is used to show and classify data '''
+    """ Class is used to show and classify data """
     cwd = os.getcwd()
     training_h_file_name = cwd + '/Data/H Training.txt'
     training_l_file_name = cwd + '/Data/L Training.txt'
 
     def __classify(self, letter):
-        ''' Classify the letter shown as either H or L and return choice as CSV.
+        """ Classify the letter shown as either H or L and return choice as CSV.
 
         Keyword arguments:
         letter -- array length 12 of 0s and 1s
-        '''
+        """
         self.__show_letter(letter)
-        classifification = input("L or H (Enter to skip): ")
+        classification = input("L or H (Enter to skip): ")
         print()
-        if classifification == '':
+        if classification == '':
             return '', ''
         else:
-            return ','.join([str(letter).strip('[]').replace(' ', ''), classifification.upper()]), classifification.upper()
+            return ','.join([str(letter).strip('[]').replace(' ', ''), classification.upper()]), classification.upper()
 
     def __count_file_lines(self, filename):
-        ''' Count the lines of a file if it exists
+        """ Count the lines of a file if it exists
 
         Keyword arguments:
         filename -- string representation of where file is located on the OS
-        '''
+        """
         count = 0
         try:
             f = open(filename, 'r')
@@ -41,23 +41,23 @@ class LetterClassifierManual:
         return count
 
     def __show_letter(self, letter):
-        '''Shows letter as pixels of zeros and ones
+        """Shows letter as pixels of zeros and ones
 
         Keyword arguments:
         letter -- array length 12 of 0s and 1s
-        '''
+        """
         for pos in range(len(letter)):
             print(letter[pos], end=' ')
             if (pos + 1) % 3 == 0:
                 print()
 
     def __write_data_to_files(self, h_set, l_set):
-        ''' Append training data to respective files.
+        """ Append training data to respective files.
 
         Keyword arguments:
         h_set -- list of csv strings in the format LETTER,H
         l_set -- list of csv strings in the format LETTER,L
-        '''
+        """
         f = open(self.training_h_file_name, 'a+')
         f.write('\n'.join(h_set) + '\n')
         f.close()
@@ -72,7 +72,7 @@ class LetterClassifierManual:
         f.close()
 
     def classifyLetters(self):
-        ''' Classify a minimium of 300 numbers for the L set and H set.'''
+        """ Classify a minimum of 300 numbers for the L set and H set."""
         h_gen = HGenerator()
         l_gen = LGenerator()
         h_done = self.__count_file_lines(self.training_h_file_name)
@@ -124,7 +124,7 @@ class LetterClassifierManual:
             #     l_set = []
 
     def classifyLettersTest(self):
-        ''' Classify a minimium of 300 numbers for the L set and H set for test data'''
+        """ Classify a minimum of 300 numbers for the L set and H set for test data"""
         h_gen = HGenerator()
         l_gen = LGenerator()
         # h_done = self.__count_file_lines(self.training_h_file_name)
