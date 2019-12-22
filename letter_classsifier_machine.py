@@ -4,9 +4,6 @@ import random
 import itertools
 
 class LetterClassifierMachine():
-    __l_trained = np.zeros((4, 8))
-    __h_trained = np.zeros((4, 8))
-    choice_sets = []
 
     def __init__(self, m, n, data):
         # TODO: HANDLE LOGIC OF m && n here w/ array sizes
@@ -16,7 +13,7 @@ class LetterClassifierMachine():
         self.data = data
         indices = list(range(0, 12))
         tuples = list(itertools.combinations(indices,n))
-        self.choice_sets = np.array(random.sample(tuples,m))
+        self.choice_sets = np.array(random.sample(tuples,min(m,len(tuples))))
 
         # tmp_indexes = list(range(0, 12))
 
@@ -69,8 +66,11 @@ class LetterClassifierMachine():
         if self.data:
             ld = self.data[1]
             for row in ld:
-                for index, tuple in enumerate(self.choice_sets):
-                    self.__l_trained[index][self.__get_position(tuple,row)] += 1
+                samples = np.take(row,self.choice_sets)
+                i = 0
+                for x in samples:
+                    self.__l_trained[i][self.__array_to_binary(x)] += 1
+                    i += 1
 
         # cwd = os.getcwd()
         # f = open(cwd + '/Data/L Training.txt', 'r')
@@ -88,10 +88,12 @@ class LetterClassifierMachine():
         if self.data:
             data = self.data[0]
             for row in data:
-                index = 0
-                for tuple in self.choice_sets:
-                    self.__h_trained[index][self.__get_position(tuple, row)] += 1
-                    index += 1
+                samples = np.take(row, self.choice_sets)
+                i = 0
+                for x in samples:
+                    self.__h_trained[i][self.__array_to_binary(x)] += 1
+                    i += 1
+
         # cwd = os.getcwd()
         # f = open(cwd + '/Data/H Training.txt', 'r')
         # for line in f:
@@ -109,6 +111,16 @@ class LetterClassifierMachine():
     def print_h_set(self):
         print(self.__h_trained)
 
+
+    def __array_to_binary(self,arr):
+        i = 0
+        n = 0
+        for x in arr:
+            n <<= 1
+            if x == '1':
+                n += 1
+            i += 1
+        return n
 
     def __get_position(self, tuple, data):
         vals = data[tuple]
@@ -140,12 +152,13 @@ class LetterClassifierMachine():
         total_h = 0
         total_l = 0
         data = self.data[2]
-        index = 0
-        for tuple in self.choice_sets:
-            total_h += self.__h_trained[index][self.__get_position(tuple, letter)]
-            total_l += self.__l_trained[index][self.__get_position(tuple, letter)]
-            index += 1
-
+        samples = np.take(letter,self.choice_sets)
+        i = 0
+        for item in samples:
+            index = self.__array_to_binary(item)
+            total_h += self.__h_trained[i][index]
+            total_l += self.__l_trained[i][index]
+            i += 1
         if (total_h > total_l):
             return 'H'
         elif (total_h < total_l):
