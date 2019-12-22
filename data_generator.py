@@ -1,7 +1,7 @@
 import random
 
 
-class HGenerator():
+class HGenerator:
     '''Letter generator class with a stronger probability of being classified
         as letter H
     '''
@@ -26,12 +26,12 @@ class HGenerator():
         Keyword Arguments:
         pixel -- Either a 0 or 1 integer to be flipped
         '''
-        if(pixel == 1):
+        if pixel == 1:
             return 0
         return 1
 
 
-class LGenerator():
+class LGenerator:
     '''Letter generator class with a stronger probability of being classified
     as letter L
     '''
@@ -59,6 +59,6 @@ class LGenerator():
         Keyword Arguments:
         pixel -- Either a 0 or 1 integer to be flipped
         '''
-        if(pixel == 1):
+        if pixel == 1:
             return 0
         return 1

@@ -1,11 +1,9 @@
-
-import random
 import os
 
 from data_generator import HGenerator, LGenerator
 
 
-class LetterClassifierManual():
+class LetterClassifierManual:
     ''' Class is used to show and classify data '''
     cwd = os.getcwd()
     training_h_file_name = cwd + '/Data/H Training.txt'
@@ -20,7 +18,7 @@ class LetterClassifierManual():
         self.__show_letter(letter)
         classifification = input("L or H (Enter to skip): ")
         print()
-        if(classifification == ''):
+        if classifification == '':
             return '', ''
         else:
             return ','.join([str(letter).strip('[]').replace(' ', ''), classifification.upper()]), classifification.upper()
@@ -50,7 +48,7 @@ class LetterClassifierManual():
         '''
         for pos in range(len(letter)):
             print(letter[pos], end=' ')
-            if ((pos + 1) % 3 == 0):
+            if (pos + 1) % 3 == 0:
                 print()
 
     def __write_data_to_files(self, h_set, l_set):
@@ -89,7 +87,7 @@ class LetterClassifierManual():
         #     print('{} out of {} Ls completed'.format(l_done, 300))
         #     print('{} out of {} Hs completed'.format(h_done, 300))
 
-        if(h_done < 300 and l_done < 300):
+        if h_done < 300 and l_done < 300:
             for i in range(300):
                 print('{} out of {} Ls completed'.format(l_done, 300))
                 print('{} out of {} Hs completed'.format(h_done, 300))
@@ -137,7 +135,7 @@ class LetterClassifierManual():
         l_set = []
         iteration = 0
 
-        if(total < 600):
+        if total < 600:
             for i in range(300):
                 # print('{} out of {} Ls completed'.format(l_done, 300))
                 # print('{} out of {} Hs completed'.format(h_done, 300))
