@@ -150,7 +150,7 @@ def get_runs_prompt(runs):
 
 def cli_menu():
     print('CLI Menu for Final Project - Fall 2019 Letter Classifier')
-    print('Authors: Nick W, ADD YOUR NAME HERE PLEASE\n\n')
+    print('Authors: Nick W, Raul M, Ekatrina A, Shein H \n\n')
     main_options()
 
 def main():
