@@ -19,24 +19,26 @@ class LetterClassifierMachine:
         self.__h_trained = np.zeros((4, 8))
         self.choice_sets = []
 
-
-    def train(self,dataset,output):
+    def train(self, dataset, output):
         for row in dataset:
-            samples = np.take(row,self.choice_sets)
+            samples = np.take(row, self.choice_sets)
             i = 0
             for s in samples:
-                output[self.__array_to_binary(s)] += 1
+                output[i][self.__array_to_binary(s)] += 1
+                i += 1
+
     def train_h_set(self):
-        self.train(self.data[0],self.__h_trained)
+        self.train(self.data[0], self.__h_trained)
 
     def train_l_set(self):
-        self.train(self.data[1],self.__l_trained)
+        self.train(self.data[1], self.__l_trained)
 
     def print_l_set(self):
         print(self.__l_trained)
 
     def print_h_set(self):
         print(self.__h_trained)
+
 
     def __array_to_binary(self, arr):
         n = 0

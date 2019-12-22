@@ -89,6 +89,7 @@ def get_input(string, validator):
 def main_options():
     hist_bool = True
     data = preload_data()
+    choice = ''
     n = 3
     m = 4
     runs = 1000
@@ -97,13 +98,11 @@ def main_options():
         m = int(get_input('m = ', lambda x: int(x) > 0))
         return n, m
 
-    choice = get_input('Modify n and m? (y/n): ', lambda x: x.lower() == 'y' or x.lower() == 'n').lower()
-    if choice == 'y':
-        n, m = modify_n_m()
     while choice.lower() != 'q':
+        print(f'\nn = {n}, m = {m}\n')
         print('Enter the number corresponding to the choice below to select or q to exit')
         print('1. Change values of n and m')
-        print('2. Change run behavior (Default is 10K runs w/ histogram display)')
+        print('2. Change run behavior (Default is 1K runs w/ histogram display)')
         print('3. Run')
         choice = get_input('Choice: ', lambda x: x == 'q' or int(x) in range(1, 4))
         if choice != '':
@@ -126,6 +125,12 @@ def main_options():
 
 
 def preload_data():
+    '''
+    Returns 3 item tuple of numpy string arrays
+    1st item - Data from H training
+    2nd item - Data from L training
+    3rd item - Test data
+    '''
     def opencsv(filename):
         return np.genfromtxt(os.path.join('Data', filename), dtype='U1', delimiter=',')
 
