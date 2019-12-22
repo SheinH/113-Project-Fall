@@ -8,39 +8,45 @@ from letter_classsifier_machine import LetterClassifierMachine
 import os
 
 
-def average_hit_missed(m,n,runs):
+def average_hit_missed(m,n,data,runs):
     hit_miss_percent = []
 
     for i in range(runs):
 
-        match, miss = train_and_run(m, n)
+        match, miss = train_and_run(m, n,data)
         hit_miss_percent.append(match / (match + miss))
     print('Mean Accuracy after {} runs: {:.3f}%\n'.format(runs,np.mean(hit_miss_percent) * 100))
     return hit_miss_percent
 
 
-def train_and_run(m, n):
-    machine_classifier = LetterClassifierMachine(m, n)
-    machine_classifier.setup(m,n)
+def train_and_run(m, n, data):
+    machine_classifier = LetterClassifierMachine(m, n, data)
 
     machine_classifier.train_l_set()
     machine_classifier.train_h_set()
-    cwd = os.getcwd()
 
-    f = open(cwd + '/Data/Test Data.txt', 'r')
+    # f = open(cwd + '/Data/Test Data.txt', 'r')
+    # match, miss = 0, 0
+    # for line in f:
+    #     if(line.strip() != ''):
+    #         classification = line.strip().split(',')[-1]
+    #         letter = line.strip().split(',')[:-1]
+    #         c = machine_classifier.classify(letter)
+    #         if (c == classification):
+    #             match += 1
+    #         else:
+    #             miss += 1
     match, miss = 0, 0
-    for line in f:
-        if(line.strip() != ''):
-            classification = line.strip().split(',')[-1]
-            letter = line.strip().split(',')[:-1]
-            c = machine_classifier.classify(letter)
-            if (c == classification):
-                match += 1
-            else:
-                miss += 1
+
+    for letter in data[2]:
+        c = machine_classifier.classify(letter[:-1])
+        if c == letter[-1]:
+            match += 1
+        else:
+            miss += 1
 
     machine_classifier.reset()
-    f.close()
+    # f.close()
 
     return match, miss
 
@@ -76,45 +82,113 @@ def edit_m_value(current):
     val = get_pos_int('Enter new value for m in range 1 - 12\n')
     return val
 
-def main_options():
-    # TODO: Edit n and m behavior as N should be tuple size and M is number of tuples where
-    # 1<=M<INFINITY M touples are randomly assigned addresses
-    choice = ''
-    n = 3
-    m = 12 // n
-    runs = 1000
-    hist_bool = True
+def get_input(string,validator):
+    inp = input(string)
+    valid = False
+    while not valid:
+        try:
+            valid = validator(inp)
+        except:
+            pass
+        if valid:
+            break
+        print('Invalid Input\n\n')
+        inp = input(string)
+    return inp
 
+
+def main_options():
+    choice = ''
+    hist_bool = True
+    data = preload_data()
+    n = 3
+    m = 4
+    runs = 1000
+    print(f'''Default values:
+n = {n}
+m = {m}
+''')
+
+    def modify_n_m():
+        n = int(get_input('n (1 - 12) = ', lambda x: int(x) in range(1, 13)))
+        m = int(get_input('m = ', lambda x: int(x) > 0))
+        return n,m
+
+    choice = get_input('Modify n and m? (y/n): ', lambda x: x.lower() == 'y' or x.lower() == 'n').lower()
+    if choice == 'y':
+        n,m = modify_n_m()
     while choice.lower() != 'q':
         print('Enter the number corresponding to the choice below to select or q to exit')
-        print('1. Change n value (Changes m depending on entered n)')
-        print('2. Change m value (Changes n depending on entered m)')
-        print('3. Change run behavior (Default is 10K runs w/ histogram display)')
-        print('4. Run')
-        choice = input()
-        if(choice != ''):
+        print('1. Change values of n and m')
+        print('2. Change run behavior (Default is 10K runs w/ histogram display)')
+        print('3. Run')
+        choice = get_input('Choice: ', lambda x: x == 'q' or int(x) in range(1, 4))
+        if (choice != ''):
             val = choice[0]
-            if(val.lower() == 'q'):
+            if (val.lower() == 'q'):
                 pass
-            elif(val == '1'):
-                n = edit_n_value(n)
-                print('n set to be {}\n'.format(n))
-                m = math.ceil(12 / n)
-            elif(val == '2'):
-                m = edit_m_value(m)
-                print('m set to be {}\n'.format(m))
-                n = math.ceil(12 / m)
-            elif(val == '3'):
+            elif (val == '1'):
+                n,m = modify_n_m()
+            elif (val == '2'):
                 runs, hist_bool = edit_behavior(runs, hist_bool)
-            elif(val == '4'):
+            elif (val == '3'):
                 print('\nRunning....')
-                if(hist_bool):
-                    create_histogram(average_hit_missed(m, n, runs), runs)
+                if (hist_bool):
+                    create_histogram(average_hit_missed(m, n,data, runs), runs)
                 else:
-                    average_hit_missed(m, n, runs)
+                    average_hit_missed(m, n,data, runs)
             else:
                 print('Invalid Input\n\n')
                 choice = ''
+
+
+def preload_data():
+    def opencsv(filename):
+        return np.genfromtxt(os.path.join('Data',filename),dtype='U1',delimiter=',')
+    h_training = opencsv('H Training.txt')
+    l_training = opencsv('L Training.txt')
+    test = opencsv('Test Data.txt')
+    return h_training,l_training,test
+
+# def main_options():
+#     # TODO: Edit n and m behavior as N should be tuple size and M is number of tuples where
+#     # 1<=M<INFINITY M touples are randomly assigned addresses
+#     choice = ''
+#     n = 3
+#     m = 12 // n
+#     runs = 1000
+#     hist_bool = True
+#
+#     while choice.lower() != 'q':
+#         print('Enter the number corresponding to the choice below to select or q to exit')
+#         print('1. Change n value (Changes m depending on entered n)')
+#         print('2. Change m value (Changes n depending on entered m)')
+#         print('3. Change run behavior (Default is 10K runs w/ histogram display)')
+#         print('4. Run')
+#         choice = input()
+#         if(choice != ''):
+#             val = choice[0]
+#             if(val.lower() == 'q'):
+#                 pass
+#             elif(val == '1'):
+#                 n = edit_n_value(n)
+#                 print('n set to be {}\n'.format(n))
+#                 m = math.ceil(12 / n)
+#             elif(val == '2'):
+#                 m = edit_m_value(m)
+#                 print('m set to be {}\n'.format(m))
+#                 n = math.ceil(12 / m)
+#             elif(val == '3'):
+#                 runs, hist_bool = edit_behavior(runs, hist_bool)
+#             elif(val == '4'):
+#                 print('\nRunning....')
+#                 if(hist_bool):
+#                     create_histogram(average_hit_missed(m, n, runs), runs)
+#                 else:
+#                     average_hit_missed(m, n, runs)
+#             else:
+#                 print('Invalid Input\n\n')
+#                 choice = ''
 
 def edit_behavior(runs, hist_bool):
     choice = ''
@@ -154,7 +228,8 @@ def cli_menu():
     main_options()
 
 def main():
-    cli_menu()
+    average_hit_missed(4, 3, preload_data(), 1000)
+    # cli_menu()
 
 
 main()
