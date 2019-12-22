@@ -26,18 +26,32 @@ class LetterClassifierMachine():
         
     
     def setup(self, m, n):
+        #todo change here
         self.choice_sets = []
         self.__l_trained = np.zeros((m, 2**n))
         self.__h_trained = np.zeros((m, 2**n))
         tmp_indexes = list(range(0, 12))
         index_list = []
-        for v in range(1, 13):
-            if(len(tmp_indexes) != 0):
-                index_list.append(tmp_indexes.pop(
-                    random.randint(0, len(tmp_indexes)-1)))
-            if(v % n == 0):
-                self.choice_sets.append(index_list)
-                index_list = []
+        # for v in range(1, 13):
+        #     if(len(tmp_indexes) != 0):
+        #         index_list.append(tmp_indexes.pop(
+        #             random.randint(0, len(tmp_indexes)-1)))
+        #     if(v % n == 0):
+        #         self.choice_sets.append(index_list)
+        #         index_list = []
+        # for i in range(m):
+        #     self.choice_sets.append([random.randint(1, 12)] for i in range(n))
+        #     if (len(tmp_indexes) != 0):
+        #         index_list.append(tmp_indexes.pop(
+        #         random.randint(0, len(tmp_indexes)-1)))
+        #     if(i % n == 0):
+        #         self.choice_sets.append(index_list)
+        #         index_list = []
+        for _ in range(m):
+            for i in range(n):
+                self.choice_sets.append([random.randint(1, 12)])
+                #index_list = []
+
 
     def reset(self):
         self.__l_trained = np.zeros((4, 8))
