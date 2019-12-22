@@ -89,7 +89,6 @@ class LetterClassifierMachine():
         print(self.__h_trained)
 
     def __get_position(self, positions):
-        #TODO: Possible need to change this logic to dictionary as m && n can change
         total = 0
         for v in range(len(positions) - 1, 0, -1):
             if(positions[v] == '1'):

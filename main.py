@@ -9,6 +9,8 @@ import os
 
 
 def average_hit_missed(m,n,runs):
+    '''Calculates the percentages of correct identifications by checking the match arrays
+    and dividing them by the overall count '''
     hit_miss_percent = []
 
     for i in range(runs):
@@ -20,6 +22,9 @@ def average_hit_missed(m,n,runs):
 
 
 def train_and_run(m, n):
+    ''' calls functions from the letter classifier machine to create the training arrays and update with the
+        training data then test what was learned on a test data set.
+    '''
     machine_classifier = LetterClassifierMachine(m, n)
     machine_classifier.setup(m,n)
 
@@ -57,6 +62,7 @@ def get_pos_int(prompt):
     return answer
     
 def create_histogram(data, runs):
+    ''' Creates a histogram of the runs to show distribution of the hit% ratios '''
     fig = plt.figure(figsize=(10, 10))
 
     plt.hist(data, bins=100, histtype='step')
@@ -66,12 +72,14 @@ def create_histogram(data, runs):
     plt.show()
 
 def edit_n_value(current):
+    '''changes the lenght of the tuple '''
     print('\nCurrent n value set to: {}'.format(current))
     val = get_pos_int('Enter new value for n in range 1 - 12\n')
 
     return val
 
 def edit_m_value(current):
+    '''changes the number of tuples being used while identifying '''
     print('\nCurrent m value set to: {}'.format(current))
     val = get_pos_int('Enter new value for m in range 1 - 12\n')
     return val
@@ -117,6 +125,9 @@ def main_options():
                 choice = ''
 
 def edit_behavior(runs, hist_bool):
+    '''allows the user to change if the histagram is printed at the end of the run or to change the number of runs
+        the stating values is to print histagram and 1000 runs
+    '''
     choice = ''
     while choice.lower() != 'q':
         print('\nEnter the number corresponding to the choice below to select or q to exit')
