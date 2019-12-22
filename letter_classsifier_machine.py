@@ -113,13 +113,11 @@ class LetterClassifierMachine():
 
 
     def __array_to_binary(self,arr):
-        i = 0
         n = 0
         for x in arr:
             n <<= 1
             if x == '1':
                 n += 1
-            i += 1
         return n
 
     def __get_position(self, tuple, data):
@@ -151,7 +149,6 @@ class LetterClassifierMachine():
         #     )]
         total_h = 0
         total_l = 0
-        data = self.data[2]
         samples = np.take(letter,self.choice_sets)
         i = 0
         for item in samples:
