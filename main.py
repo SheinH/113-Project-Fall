@@ -55,7 +55,7 @@ def get_pos_int(prompt):
         except ValueError as e:
             print('Error, choice must be in range 1 - 12.')
     return answer
-    
+
 def create_histogram(data, runs):
     fig = plt.figure(figsize=(10, 10))
 
@@ -84,7 +84,7 @@ def main_options():
     m = 12 // n
     runs = 1000
     hist_bool = True
-    
+
     while choice.lower() != 'q':
         print('Enter the number corresponding to the choice below to select or q to exit')
         print('1. Change n value (Changes m depending on entered n)')
@@ -132,8 +132,8 @@ def edit_behavior(runs, hist_bool):
             if(val == '2'):
                 runs = get_runs_prompt(runs)
     return runs, hist_bool
-    
-        
+
+
 def get_runs_prompt(runs):
     val = ''
     while val == '':
@@ -150,7 +150,7 @@ def get_runs_prompt(runs):
 
 def cli_menu():
     print('CLI Menu for Final Project - Fall 2019 Letter Classifier')
-    print('Authors: Nick W, ADD YOUR NAME HERE PLEASE\n\n')
+    print('Authors: Nick W, Shein H, Ekaterina A, Raul M\n\n')
     main_options()
 
 def main():
